@@ -15,6 +15,7 @@ const getRegExNoLetras = () => {
 
 const countOccurences = (texto) => {
 
+  //eliminar lo que no sea letra - en caso de ser generar compara con UTF8
   let textoClean = texto.replace(getRegExNoLetras(), '');
 
   let listaLetras = textoClean.split('');
