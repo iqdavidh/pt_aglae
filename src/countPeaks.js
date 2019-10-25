@@ -9,123 +9,61 @@ thus have the parenthesized peaks
 * */
 
 
-class Nodo {
-
-  constructor(numero) {
-    this.valor = numero;
-    this.isPeak = false;
-    this.isPeakLef = null;
-    this.isPeakRight = null;
+const factoryNivelNodo = (valor) => {
+  return {
+    valor,
+    contador: 1,
+    isPeak:false
   }
+};
 
-  printNivelChart(nivel) {
-    return numero <= nivel ? '*' : ' ';
-  }
-
-
-  printString() {
-    return (this.isPeakLef ? '(' : '').this.valor.this.isPeakRight ? ')' : '';
-  }
-
-  //TODO test this method
-  evaluarSiEsPick(listaLeftOriginal, listaRighOriginal) {
-
-    const valor = this.valor;
-
-    if (listaLeftOriginal !== null) {
-      const L = [...listaLeftOriginal].reverse();
-
-      //buscar
-      let isPeakL = false;
-      for(let i=0;i<count(L);i++){
-        if(L[i]!==valor){
-          // solo si el valor ex mayor tebnemos un peak
-          isPeakL = valor>L[i];
-          break;
-        }
-
-      }
-
-    }
-
-    //es lo miso pero sin invertir el array
-
-    if (listaRighOriginalt !== null) {
-      const R = [...listaRighOriginalt];
-
-      //buscar
-      let isPeakR = false;
-      for(let i=0;i<count(R);i++){
-        if(R[i]!==valor){
-          // solo si el valor ex mayor tebnemos un peak
-          isPeakR = valor>R[i];
-          break;
-        }
-      }
-    }
-
-    this.isPeakLef=isPeakL;
-    this.isPeakLef=isPeakR;
-    this.isPeak=this.isPeakLef||this.isPeakRight;
-
-  }
-
-
-}
+const listaNivel = [];
 
 
 const countPeaks = (lista, isReturnString = true) => {
 
-  //TODO validar que es un array lo que se va a procesar y tiene mas de 1 elemento
-  //sin validación de argumentos porquye ya no hay tiempo
-
-
-  const listaNodos = [];
-
+  //crear la lista de niveles  -------------------------
   for (let i = 0; i < lista.length; i++) {
 
     const pivote = lista[i];
 
-    const nodo = new Nodo(pivote);
-
-    let valorL = null;
-    let valorR = null;
 
     if (i === 0) {
-      //inicio
-      valorR = lista[i + 1];
-
-    } else if (i === (lista.length - 1)) {
-      //fin
-      valorL = lista[i - 1];
+      listaNivel.push(factoryNivelNodo(pivote));
     } else {
-      //parte media
-      valorL = lista[i - 1];
-      valorR = lista[i + 1];
+      if (listaNivel[listaNivel.length - 1].valor === pivote) {
+        //forma parte del mismo nivel
+        listaNivel[listaNivel.length - 1].contador++;
+      } else {
+        listaNivel.push(factoryNivelNodo(pivote));
+      }
     }
 
-    nodo.evaluarSiEsPick(valorL, valorR);
-
-    listaNodos.push(nodo);
   }
 
-  //unironodos
+  let puntodebug=0;
+  //ver si un nuvel sobre sale de sus extremos ----------------------------------------
 
+
+  for(let i=0;i<listaNivel.length;i++){
+
+    let isPeackL=true;
+    if(i>0){
+      //comparar el valor del nivel con el de la izquierda
+      isPeackL=listaNivel[i].valor > listaNivel[i-1].valor;
+    }
+    let isPeackR=true;
+    if(i< listaNivel.length-1){
+      //comparar el valor del nivel con el de la derecha
+      isPeackR=listaNivel[i].valor > listaNivel[i+1].valor;
+    }
+
+
+    listaNivel[i].isPeak=isPeackL && isPeackR;
+
+  }
 
   let respuesta = "";
-
-  if (isReturnString) {
-
-    listaNodos.forEach((n, index) => {
-      respuesta = respuesta === "" ? '' : ',';
-      respuesta += n.printString()
-    });
-
-    respuesta = `[${respuesta}]`;
-
-  } else {
-
-  }
 
 
   return respuesta;
