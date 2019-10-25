@@ -13,7 +13,7 @@ const factoryNivelNodo = (valor) => {
   return {
     valor,
     contador: 1,
-    isPeak:false
+    isPeak: false
   }
 };
 
@@ -41,32 +41,48 @@ const countPeaks = (lista, isReturnString = true) => {
 
   }
 
-  let puntodebug=0;
+  let puntodebug = 0;
   //ver si un nuvel sobre sale de sus extremos ----------------------------------------
 
 
-  for(let i=0;i<listaNivel.length;i++){
+  for (let i = 0; i < listaNivel.length; i++) {
 
-    let isPeackL=true;
-    if(i>0){
+    let isPeackL = true;
+    if (i > 0) {
       //comparar el valor del nivel con el de la izquierda
-      isPeackL=listaNivel[i].valor > listaNivel[i-1].valor;
+      isPeackL = listaNivel[i].valor > listaNivel[i - 1].valor;
     }
-    let isPeackR=true;
-    if(i< listaNivel.length-1){
+    let isPeackR = true;
+    if (i < listaNivel.length - 1) {
       //comparar el valor del nivel con el de la derecha
-      isPeackR=listaNivel[i].valor > listaNivel[i+1].valor;
+      isPeackR = listaNivel[i].valor > listaNivel[i + 1].valor;
     }
 
 
-    listaNivel[i].isPeak=isPeackL && isPeackR;
+    listaNivel[i].isPeak = isPeackL && isPeackR;
 
   }
 
-  let respuesta = "";
+  let listaTexto = listaNivel
+      .map(item => {
+        let texto = new Array(item.contador).fill(item.valor).join(',');
+
+        if (item.isPeak) {
+          texto = `(${texto})`;
+        }
+
+        return texto;
+      })
+  ;
 
 
-  return respuesta;
+  let respuesta = listaTexto.join(',');
+
+
+  //cosntruir respuesta
+
+
+  return  '[' + respuesta + ']';
 
 
 };
