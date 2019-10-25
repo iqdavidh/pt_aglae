@@ -6,9 +6,7 @@
     "test": "nyc mocha --timeout 20000 test/**/*.js",
     "report-coverage": "nyc report --reporter=text-lcov >  coverage.lcov && codecov"
   },
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
     "codecov": "^3.5.0",
     "mocha": "^6.2.0",
